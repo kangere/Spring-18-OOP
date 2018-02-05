@@ -24,4 +24,14 @@ enum Suit {
 	Spades,
 };
 
+class Card
+{
+private:
+	Rank rank;
+	Suit suit;
+
+public:
+	Card(Rank r, Suit s):rank(r), suit(s){}
+};
+
 #endif

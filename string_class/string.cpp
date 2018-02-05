@@ -42,3 +42,42 @@ void String::operator=(const char* c)
 	for(int i = 0; i < len; i++)
 		buffer[i] = *(c + i);
 }
+
+bool String::operator==(const String& s)
+{
+	if(len < s.length() || len > s.length())
+		return false;
+
+	for (int i = 0; i < len; i++)
+	{
+		if(buffer[i] != s.buffer[i])
+			return false;
+	}
+
+	return true;
+}
+ bool String::operator<(const String& s)
+ {
+ 	int  leftCount = 0, rightCount = 0;
+
+ 	for(int i = 0; i < len; i++)
+ 		leftCount += buffer[i];
+
+ 	for(int i = 0; i < s.length(); i++)
+ 		rightCount += s.buffer[i];
+
+ 	if(leftCount >= rightCount)
+ 		return false;
+
+ 	return true;
+
+ 	
+ }
+
+std::ostream &operator<<(std::ostream& stream, const String& string)
+{
+	for(int i =0; i < string.length(); i++)
+		stream << string.buffer[i];
+
+	return stream;
+}

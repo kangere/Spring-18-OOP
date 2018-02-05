@@ -1,6 +1,7 @@
 #ifndef STRING_HPP
 #define STRING_HPP
 
+#include <iostream>
 class String 
 {
 private:
@@ -15,7 +16,10 @@ public:
 
 	void operator=(const String &);
 	void operator=(const char*);
+	bool operator==(const String&);
+	bool operator<(const String&);
 
+	friend std::ostream& operator <<(std::ostream&, const String&);
 	
 };
 

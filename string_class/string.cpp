@@ -22,6 +22,7 @@ String::String(const char* c)
 }
 
 
+
 void String::operator=(const String &s)
 {
 	len = s.length();

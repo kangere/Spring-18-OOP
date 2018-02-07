@@ -20,6 +20,8 @@ public:
 	bool operator<(const String&);
 
 	friend std::ostream& operator <<(std::ostream&, const String&);
+
+	~String(){delete [] buffer;}
 	
 };
 

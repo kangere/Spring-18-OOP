@@ -15,5 +15,15 @@ int main()
 	std::cout <<"== success" <<std::endl;
 	assert(r != r2);
 	std::cout <<"!= success" <<std::endl;
+	assert(r < r2);
+	std::cout <<"< success" <<std::endl;
+	assert(r2 > r);
+	std::cout <<"> success" <<std::endl;
+	assert(r <= r2);
+	std::cout <<"<= success" <<std::endl;
+	assert(r2 >= r1);
+	std::cout <<">= success" <<std::endl;
+	
+
 	return 0;
 }

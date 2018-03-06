@@ -9,6 +9,7 @@ private:
 	int num, denom;
 	void simplify();
 	int gcd(int,int);
+	int lcm (int, int);
 
 public:
 	//constructors
@@ -17,13 +18,13 @@ public:
 		{}
 	rational(int,int);
 
-	bool operator==(rational &);
-	bool operator!=(rational &);
+	bool operator==(const rational &);
+	bool operator!=(const rational &);
 
-	bool operator<(rational &);
-	bool operator>(rational &);
-	bool operator<=(rational &);
-	bool operator>=(rational &);
+	bool operator<(const rational &);
+	bool operator>(const rational &);
+	bool operator<=(const rational &);
+	bool operator>=(const rational &);
 
 
 

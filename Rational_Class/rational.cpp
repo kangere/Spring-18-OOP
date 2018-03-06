@@ -1,6 +1,7 @@
 #include "rational.hpp"
 #include <cstdlib>
 #include <cassert>
+#include <iostream>
 
 
 int rational::gcd(int a, int b)
@@ -109,20 +110,20 @@ rational rational::operator/(const rational &r)
 	return rational(num * r.denom, denom * r.num);
 }
 
-std::ostream &operator<<(std::ostream &out,rational r)
+std::ostream& operator<<(std::ostream &out,const rational &r)
 {
 	out << r.numerator() << '/' << r.denominator();
 	return out;	
 }
 
-// std::istream& operator>>(std::istream& in, rational& r)
-// {
-// 	int n,d;
+std::istream& operator>>(std::istream& in, rational& r)
+{
+	int n,d;
 	
-// 	in >> n;
-// 	in >> r.denom;
+	in >> n;
+	in >> d;
 
-// 	r.num =  n;
-// 	 r.denom = d;
-// 	return in;	
-// }
+	r.num =  n;
+	r.denom = d;
+	return in;	
+}

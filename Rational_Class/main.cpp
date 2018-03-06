@@ -40,11 +40,11 @@ int main()
 	std::cout << r ;
 
 
-	// rational r3;
-	// std::cout << "Enter numerator and denominator: ";
-	// std::cin >> r3;
+	rational r3;
+	std::cout << "Enter numerator and denominator: ";
+	std::cin >> r3;
 
-	// std::cout << "Number is: " << r3 << std::endl;
+	std::cout << "Number is: " << r3 << std::endl;
 
 	return 0;
 }

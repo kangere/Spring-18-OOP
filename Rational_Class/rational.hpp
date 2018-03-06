@@ -14,8 +14,7 @@ private:
 public:
 	//constructors
 	rational():num(0), denom(1) {}
-	rational(int num):num(num), denom(1)
-		{}
+	rational(int number):num(number), denom(1) {}
 	rational(int,int);
 
 	int numerator() const {return num;}
@@ -35,8 +34,8 @@ public:
 	rational operator-(const rational &);
 	rational operator/(const rational &);
 
-	// friend std::ostream& operator<<(std::ostream &, rational);
-	// friend std::istream& operator>>(std::istream &, rational &);
+	friend std::ostream& operator<<(std::ostream &, const rational &);
+	friend std::istream& operator>>(std::istream &, rational &);
 
 
 
@@ -44,8 +43,8 @@ public:
 };
 
 
-std::ostream& operator<<(std::ostream &, rational);
-std::istream& operator>>(std::istream &, rational &);
+// std::ostream& operator<<(std::ostream &, const rational&);
+// std::istream& operator>>(std::istream &, rational &);
 
 
 

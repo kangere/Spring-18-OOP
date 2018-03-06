@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cassert>
 
+
 int rational::gcd(int a, int b)
 {
   while (b != 0) {
@@ -76,3 +77,52 @@ bool rational::operator>=(const rational &r)
 {
 	return(*this > r) || (*this == r);
 }
+
+
+rational rational::operator+(const rational &r)
+{
+	int numerator;
+	int num_lcm = lcm(denom,r.denom);
+
+	numerator = ((num_lcm / denom) * num) + ((num_lcm / r.denom) * r.num);
+
+	return rational(numerator,num_lcm); 
+}
+
+rational rational::operator-(const rational &r)
+{
+	int numerator;
+	int num_lcm = lcm(denom,r.denom);
+
+	numerator = ((num_lcm / denom) * num) - ((num_lcm / r.denom) * r.num);
+
+	return rational(numerator,num_lcm); 
+}
+
+rational rational::operator*(const rational &r)
+{
+	return rational(num * r.num, denom * r.denom);
+}
+
+rational rational::operator/(const rational &r)
+{
+	return rational(num * r.denom, denom * r.num);
+}
+
+std::ostream &operator<<(std::ostream &out,rational r)
+{
+	out << r.numerator() << '/' << r.denominator();
+	return out;	
+}
+
+// std::istream& operator>>(std::istream& in, rational& r)
+// {
+// 	int n,d;
+	
+// 	in >> n;
+// 	in >> r.denom;
+
+// 	r.num =  n;
+// 	 r.denom = d;
+// 	return in;	
+// }

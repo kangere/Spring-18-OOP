@@ -1,7 +1,7 @@
 #ifndef RATIONAL_HPP
 #define RATIONAL_HPP
 
-
+#include <iosfwd>
 
 class rational {
 
@@ -18,6 +18,10 @@ public:
 		{}
 	rational(int,int);
 
+	int numerator() const {return num;}
+	int denominator() const {return denom;}
+
+	
 	bool operator==(const rational &);
 	bool operator!=(const rational &);
 
@@ -26,10 +30,22 @@ public:
 	bool operator<=(const rational &);
 	bool operator>=(const rational &);
 
+	rational operator+(const rational &);
+	rational operator*(const rational &);
+	rational operator-(const rational &);
+	rational operator/(const rational &);
+
+	// friend std::ostream& operator<<(std::ostream &, rational);
+	// friend std::istream& operator>>(std::istream &, rational &);
+
 
 
 
 };
+
+
+std::ostream& operator<<(std::ostream &, rational);
+std::istream& operator>>(std::istream &, rational &);
 
 
 

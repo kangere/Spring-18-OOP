@@ -23,7 +23,28 @@ int main()
 	std::cout <<"<= success" <<std::endl;
 	assert(r2 >= r1);
 	std::cout <<">= success" <<std::endl;
+
+	assert(r + r1 == rational(1,1));
+	std::cout <<"+ success" <<std::endl;	
+
+	assert(r2 - r == rational(1,4));
+	std::cout <<"- success" <<std::endl;
+
+	assert(r2 * r == rational(3,8));
+	std::cout <<"* success" <<std::endl;
+
+	assert(r2 / r == rational(3,2));
+	std::cout <<"/ success" <<std::endl;	
 	
+
+	std::cout << r ;
+
+
+	// rational r3;
+	// std::cout << "Enter numerator and denominator: ";
+	// std::cin >> r3;
+
+	// std::cout << "Number is: " << r3 << std::endl;
 
 	return 0;
 }

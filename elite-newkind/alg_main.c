@@ -1257,6 +1257,7 @@ int main()
 
 	if (gfx_graphics_startup() == 1)
 	{
+		allegro_message("not setting up graphics properly");
 		return 1;
 	}
 	

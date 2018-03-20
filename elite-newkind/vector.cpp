@@ -1,6 +1,14 @@
 #include "vector.hpp"
 #include <math.h>
 
+
+static const Matrix start_matrix = 
+{
+	{1.0,0.0,0.0},
+	{0.0,1.0,0.0},
+	{0.0,0.0,-1.0}
+};
+
 /*
 *funciton multiplies this vector with a matrix 
 *and updates fields of current vector
@@ -56,6 +64,40 @@ void vector::rotate_vec(double alpha, double beta)
 	z = t_z;
 }
 
+void vector::rotate_var(int first, int second, int direction)
+{
+	double fx,ux;
+
+	fx = first;
+	ux = second;
+
+	if (direction < 0)
+	{	
+		first = fx - (fx / 512) + (ux / 19);
+		second = ux - (ux / 512) - (fx / 19);
+	}
+	else
+	{
+		first = fx - (fx / 512) - (ux / 19);
+		second = ux - (ux / 512) + (fx / 19);
+	}
+}
+
+void vector::rotate_x(int t_x,int direction)
+{
+	rotate_var(x,t_x,direction);
+}
+
+void vector::rotate_y(int t_y,int direction)
+{
+	rotate_var(y,t_y,direction);
+}
+
+void vector::rotate_z(int t_z,int direction)
+{
+	rotate_var(z,t_z,direction);
+}
+
 /*
 * overload assignment operator
 */
@@ -66,3 +108,46 @@ void vector::operator=(vector &second)
 	z = second.z;
 }
 
+
+/*
+*	Resets matrix
+*
+*
+*/
+void set_init_matrix (vector *mat)
+{
+	int i;
+
+	for (i = 0; i < 3; i++)
+		mat[i] = start_matrix[i];
+}
+
+void tidy_matrix (vector *mat)
+{
+	mat[2] = mat[2].unit_vector();
+
+	if ((mat[2].get_x() > -1) && (mat[2].get_x() < 1))
+	{
+		if ((mat[2].get_y() > -1) && (mat[2].get_y() < 1))
+		{
+			mat[1].set_z(-(mat[2].get_x() * mat[1].get_x() + mat[2].get_y() * mat[1].get_y()) / mat[2].get_z());
+		}
+		else
+		{
+			mat[1].set_y(-(mat[2].get_x() * mat[1].get_x() + mat[2].get_z() * mat[1].get_z()) / mat[2].get_y());
+		}
+	}
+	else
+	{
+		mat[1].set_x(-(mat[2].get_y() * mat[1].get_y() + mat[2].get_z() * mat[1].get_z()) / mat[2].get_x());
+	}
+	
+	mat[1] = mat[1].unit_vector();
+	
+
+	/* xyzzy... nothing happens. :-)*/
+	
+	mat[0].set_x(mat[1].get_y() * mat[2].get_z() - mat[1].get_z() * mat[2].get_y());
+	mat[0].set_y(mat[1].get_z() * mat[2].get_x() - mat[1].get_x() * mat[2].get_z());
+	mat[0].set_z(mat[1].get_x() * mat[2].get_y() - mat[1].get_y() * mat[2].get_x());
+}

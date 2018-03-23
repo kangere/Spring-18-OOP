@@ -24,6 +24,7 @@
 #include <stdlib.h>
 
 #include "vector.h"
+/*#include "vector.hpp"*/
 
 #include "alg_data.h"
 
@@ -60,6 +61,7 @@ int hyper_galactic;
 
 
 
+/*Updated implementation in vector class*/
 void rotate_x_first (double *a, double *b, int direction)
 {
 	double fx,ux;
@@ -79,6 +81,7 @@ void rotate_x_first (double *a, double *b, int direction)
 	}
 }
 
+/*Updated implementation in vector class*/
 
 void rotate_vec (struct vector *vec, double alpha, double beta)
 {
@@ -115,9 +118,12 @@ void move_univ_object (struct univ_object *obj)
 	alpha = flight_roll / 256.0;
 	beta = flight_climb / 256.0;
 	
+	/*Updated implementation in vector class*/
 	x = obj->location.x;
 	y = obj->location.y;
 	z = obj->location.z;
+
+	
 
 	if (!(obj->flags & FLG_DEAD))
 	{ 
@@ -125,9 +131,12 @@ void move_univ_object (struct univ_object *obj)
 		{
 			speed = obj->velocity;
 			speed *= 1.5; 	
+
+			/*Updated implementation in vector class*/
 			x += obj->rotmat[2].x * speed; 
 			y += obj->rotmat[2].y * speed; 
-			z += obj->rotmat[2].z * speed; 
+			z += obj->rotmat[2].z * speed;
+			 
 		}
 
 		if (obj->acceleration != 0)
@@ -149,18 +158,22 @@ void move_univ_object (struct univ_object *obj)
 
 	z = z - flight_speed;
 
+	/*Updated implementation in vector class*/
 	obj->location.x = x;
 	obj->location.y = y;
-	obj->location.z = z;	
+	obj->location.z = z;
+
 
 	obj->distance = sqrt (x*x + y*y + z*z);
 	
 	if (obj->type == SHIP_PLANET)
 		beta = 0.0;
 	
+	/*Updated implementation in vector class*/	
 	rotate_vec (&obj->rotmat[2], alpha, beta);
 	rotate_vec (&obj->rotmat[1], alpha, beta);
 	rotate_vec (&obj->rotmat[0], alpha, beta);
+
 
 	if (obj->flags & FLG_DEAD)
 		return;
@@ -173,9 +186,10 @@ void move_univ_object (struct univ_object *obj)
 
 	if (rotx != 0)
 	{
+		/*Updated implementation in vector class*/
 		rotate_x_first (&obj->rotmat[2].x, &obj->rotmat[1].x, rotx);
 		rotate_x_first (&obj->rotmat[2].y, &obj->rotmat[1].y, rotx);	
-		rotate_x_first (&obj->rotmat[2].z, &obj->rotmat[1].z, rotx);
+		rotate_x_first (&obj->rotmat[2].z, &obj->rotmat[1].z, rotx);		
 
 		if ((rotx != 127) && (rotx != -127))
 			obj->rotx -= (rotx < 0) ? -1 : 1;
@@ -227,7 +241,7 @@ void dock_player (void)
 
 int is_docking (int sn)
 {
-	struct vector vec;
+	struct vector vec; 
 	double fz;
 	double ux;
 
@@ -240,6 +254,7 @@ int is_docking (int sn)
 		return 0;
 	
 	vec = unit_vector (&universe[sn].location);
+	
 
 	if (vec.z < 0.927)
 		return 0;
@@ -446,6 +461,7 @@ void make_station_appear (void)
 	vec.z = rand() & 32767;	
 
 	vec = unit_vector (&vec);
+	
 
 	sx = px - vec.x * 65792;
 	sy = py - vec.y * 65792;

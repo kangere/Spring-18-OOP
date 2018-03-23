@@ -1,15 +1,16 @@
 #include <iostream>
+#include <cassert>
 // #include "card.hpp"
-#include "bitCard.hpp"
-
-
+/*#include "bitCard.hpp"
+*/
+#include "union_card.hpp"
 int main()
 {
 
-	 Card c{Ace,Hearts};
-	 
-	std::cout << "Card Size: "<< sizeof(c) << std::endl;
-	std::cout << "int Size: "<< sizeof(int) << std::endl;
+	StandardCard sc{Ace,Spades};
+	Card c{sc};
 
+	assert(c.is_standard());
+	 
 	return 0;
 }

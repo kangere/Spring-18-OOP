@@ -30,6 +30,11 @@ enum Color
 	Red
 };
 
+enum Kind
+{
+	standard_card,
+	joker_card
+};
 
 class StandardCard
 {
@@ -62,12 +67,6 @@ public:
 
 class Card
 {
-public:
-	enum Kind
-	{
-		standard_card,
-		joker_card
-	};
 
 private:
 	union Value

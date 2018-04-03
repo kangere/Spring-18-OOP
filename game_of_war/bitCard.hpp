@@ -1,7 +1,41 @@
 #ifndef BITCARD_HPP
 #define BITCARD_HPP
 
+#define stringify(name) #name
+
 #include <cassert>
+#include <iosfwd>
+
+const static char *rank_name[] =
+{
+	stringify(Ace),
+	stringify(Two),
+	stringify(Three),
+	stringify(Four),
+	stringify(Five),
+	stringify(Six),
+	stringify(Seven),
+	stringify(Eight),
+	stringify(Nine),
+	stringify(Ten),
+	stringify(Jack),
+	stringify(Queen),
+	stringify(King)
+}; 
+
+const static char *suit_name[] = 
+{
+	stringify(Hearts),
+	stringify(Diamonds),
+	stringify(Clubs),
+	stringify(Spades)
+};
+
+const static char *color_name[] = 
+{
+	stringify(Black),
+	stringify(Red)
+};
 
 enum Rank {
 	Ace,
@@ -70,7 +104,7 @@ public:
 
 	Color get_color() const {
 		assert(is_joker());
-		return (Color)((0b11000000 & bits) >> 6);
+		return (Color)((0b000011 & bits));
 	}
 
 	bool operator==(const Card &c)
@@ -92,6 +126,7 @@ public:
 	{ return bits >= c.bits; }
 
 
+	friend std::ostream& operator<<(std::ostream&, const Card&);
 };
 
 

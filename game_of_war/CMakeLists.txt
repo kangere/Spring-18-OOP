@@ -4,7 +4,9 @@ project(war CXX)
 
 set(CMAKE_CXX_FLAGS "-std=c++1z")
 
-add_executable(war
-	main.cpp
-	card.hpp
-	card.cpp)
+set(SOURCES 
+	main.cpp 
+	bitCard.hpp
+	bitCard.cpp)
+	
+add_executable(war ${SOURCES})

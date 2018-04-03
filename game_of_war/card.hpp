@@ -4,6 +4,7 @@
 #define stringify(name) #name
 
 #include <iosfwd>
+#include <vector>
 
 /*Card with inheritance*/
 const static char *rank_name[] =
@@ -78,6 +79,7 @@ private:
 
 public:
 	Card() {}
+	virtual Card clone() = 0;
 };
 
 class StandardCard : public Card {
@@ -91,6 +93,8 @@ public:
 
 	Rank get_rank() const {return rank;}
 
+	StandardCard clone();
+
 	friend std::ostream& operator<<(std::ostream&, const StandardCard&); 
 
 };
@@ -103,8 +107,23 @@ public:
 	JokerCard(Color c): 
 	color(c) {}
 
+	JokerCard clone();
 	friend std::ostream& operator<<(std::ostream&,const JokerCard&);
 
+};
+
+class Deck: public std::vector<Card*>{
+public:
+	Deck(const Deck&);
+
+	Deck(std::initializer_list<Card*> list):
+	std::vector<Card*>(list) {}
+
+	~Deck()
+	{
+		for(Card *c: *this)
+			delete c;
+	}
 };
 
 

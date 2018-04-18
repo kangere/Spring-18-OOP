@@ -42,7 +42,7 @@ vector vector::unit_vector()
 	double uni;
 	uni = sqrt (x * x + y * y + z * z);
 
-	return vector((x / uni),(y / uni),(z / uni))
+	return vector((x / uni),(y / uni),(z / uni));
 }
 
 /*
@@ -106,11 +106,16 @@ void vector::rotate_z(int t_z,int direction)
 /*
 * overload assignment operator
 */
-void vector::operator=(vector &second)
+void vector::operator=(const vector &second)
 {
-	x = second.x;
-	y = second.y;
-	z = second.z;
+	if(this != &second)
+	{
+		x = second.x;
+		y = second.y;
+		z = second.z;	
+	}
+
+	
 }
 
 

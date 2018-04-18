@@ -19,7 +19,7 @@ public:
 	void set_y(double y1){ y = y1;}
 	void set_z(double z1){ z = z1;}
 	
-	void mult_vector(vector&);
+	void mult_vector(vector*);
 	double vector_dot_product(vector&);
 	vector unit_vector();
 	void rotate_vec(double,double);
@@ -28,7 +28,7 @@ public:
 	void rotate_y(int,int);
 	void rotate_z(int,int);
 
-	void operator=(vector&);
+	void operator=(const vector&);
 };
 
 typedef vector Matrix[3];

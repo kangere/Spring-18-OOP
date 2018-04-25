@@ -1,4 +1,5 @@
 #include "graphics.hpp"
+#include "alg_data.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -252,5 +253,82 @@ void Graphics::draw_aa_line(int x1, int y1, int x2, int y2)
 		}
 	}
 
+}
+
+void Graphics::shutdown()
+{
+	destroy_bitmap(scanner_image);
+	destroy_bitmap(gfx_screen);
+	unload_datafile(datafile);
+}
+
+Graphics& Graphics::instance()
+{
+	static Graphics g;
+	return g;
+}
+
+void Graphics::update_screen()
+{
+	while (frame_count < 1)
+		rest (10);
+	frame_count = 0;
+	
+	acquire_screen();
+ 	blit (gfx_screen, screen, GFX_X_OFFSET, GFX_Y_OFFSET, GFX_X_OFFSET, GFX_Y_OFFSET, 512, 512);
+	release_screen();
+}
+
+void renderer::display_text(int x, int y, char *txt)
+{
+	display_colour_text(x,y,txt,GFX_COL_WHITE);
+}
+
+void renderer::display_colour_text(int x, int y, char *txt, int col)
+{
+	text_mode (-1);
+	if(datafile)
+		textout (gfx_screen, datafile[ELITE_1].dat, txt, (x / (2 / GFX_SCALE)) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, col);
+	else
+		allegro_message("Datafile not set");
+}
+
+void renderer::display_centre_text(int y, char *str, int psize, int col)
+{
+	int txt_size;
+	int txt_colour;
+	
+	if (psize == 140)
+	{
+		txt_size = ELITE_2;
+		txt_colour = -1;
+	}
+	else
+	{
+		txt_size = ELITE_1;
+		txt_colour = col;
+	}
+
+	text_mode (-1);
+	if(datafile)
+		textout_centre (gfx_screen,  datafile[txt_size].dat, str, (128 * GFX_SCALE) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, txt_colour);
+	else
+		allegro_message("Datafile not loaded");
+}
+
+void renderer::clear_display()
+{
+	rectfill (gfx_screen, GFX_X_OFFSET + 1, GFX_Y_OFFSET + 1, 510 + GFX_X_OFFSET, 383 + GFX_Y_OFFSET, GFX_COL_BLACK);
+}
+
+void renderer::clear_text_area()
+{
+	rectfill (gfx_screen, GFX_X_OFFSET + 1, GFX_Y_OFFSET + 340, 510 + GFX_X_OFFSET, 383 + GFX_Y_OFFSET, GFX_COL_BLACK);
+}
+
+void renderer::clear_area(int tx, int ty, int bx, int by)
+{
+	rectfill (gfx_screen, tx + GFX_X_OFFSET, ty + GFX_Y_OFFSET,
+				   bx + GFX_X_OFFSET, by + GFX_Y_OFFSET, GFX_COL_BLACK);
 }
 

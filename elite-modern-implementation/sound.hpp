@@ -36,7 +36,7 @@ void sound_startup(std::vector<Sound*>);
 void sound_shutdown(std::vector<Sound*>);
 void sound_play(std::vector<Sound*>);
 void sound_update(std::vector<Sound*>);
-void play_midi(int,int);
+void play_midi_d(int,int);
 void stop_midi();
 
 #endif

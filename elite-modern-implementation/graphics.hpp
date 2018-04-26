@@ -1,6 +1,8 @@
 #ifndef GRAPHICS_HPP
 #define GRAPHICS_HPP
-#include <cassert>
+
+#include "allegro.h"
+#include <math.h>
 
 /*constants used for graphics rendering*/
 #ifdef RES_512_512
@@ -99,7 +101,16 @@ const int IMG_MISSILE_YELLOW = 8;
 const int IMG_MISSILE_RED = 9;
 const int IMG_BLAKE	 = 10;
 
-#include "allegro.h"
+
+
+#define AA_BITS 3
+#define AA_AND  7
+#define AA_BASE 235
+
+#define trunc(x) ((x) & ~65535)
+#define frac(x) ((x) & 65535)
+#define invfrac(x) (65535-frac(x))
+#define plot(x,y,c) putpixel(gfx_screen, (x), (y), (c)+AA_BASE)
 
 /*This class will handle rendering of objects and decouple graphics
 rendering from the entities*/
@@ -119,10 +130,12 @@ private:
 	int speed_cap = 75;
 	int anti_alias_gfx = 0;
 public:
-	Graphics(){}
+	Graphics()
+	{datafile = load_datafile("elite.dat");}
 	int startup();
 	void draw_line(int,int,int,int);
 	void shutdown();
+	void draw_scanner();
 	/*use singleton pattern*/
 	static Graphics& instance();
 	void update_screen();
@@ -141,6 +154,7 @@ class renderer{
 private:
 	BITMAP* gfx_screen = Graphics::instance().get_screen();
 	DATAFILE* datafile = Graphics::instance().get_datafile();
+	FONT* font;
 	
 
 public:
@@ -150,6 +164,11 @@ public:
 	void clear_display();
 	void clear_text_area();
 	void clear_area(int tx, int ty, int bx, int by);
+	void pretty_text(int tx, int ty, int bx, int by, char *txt);
+	void r_draw_sprite(int sprite_no, int x, int y);
+	
+	void plot_pixel(int x, int y, int col);
+	void plot_fast_pixel(int x, int y, int col);
 };
 
 

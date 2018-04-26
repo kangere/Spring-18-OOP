@@ -102,23 +102,23 @@ void sound_update(std::vector<Sound*> v)
 }
 
 
-void play_midi(int midi_no, int repeat)
+void play_midi_d(int midi_no, int repeat)
 {
 	
 	DATAFILE* datafile = Graphics::instance().get_datafile();
 	if(!sample_list[0]->is_sound_on())
 		return;
 
-	/*switch(midi_no)
+	switch(midi_no)
 	{
 		case SND_ELITE_THEME:
-			play_midi (datafile[THEME].dat, repeat);
+			play_midi (load_midi("theme.mid")/*datafile[THEME].dat*/, repeat);
 			break;
 		
 		case SND_BLUE_DANUBE:
-			play_midi (datafile[DANUBE].dat, repeat);
+			play_midi (load_midi("danube.mid")/*datafile[DANUBE].dat*/, repeat);
 			break;
-	}*/
+	}
 }
 
 void stop_midi()

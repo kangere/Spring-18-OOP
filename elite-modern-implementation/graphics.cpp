@@ -3,18 +3,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
+
 #include <ctype.h>
 #include <iostream>
 
-#define AA_BITS 3
-#define AA_AND  7
-#define AA_BASE 235
 
-#define trunc(x) ((x) & ~65535)
-#define frac(x) ((x) & 65535)
-#define invfrac(x) (65535-frac(x))
-#define plot(x,y,c) putpixel(gfx_screen, (x), (y), (c)+AA_BASE)
 
 volatile int frame_count = 0;
 
@@ -62,7 +55,7 @@ int Graphics::startup()
       	return 1;
 	}
 	
-	datafile = load_datafile("elite.dat");
+	/*datafile = load_datafile("elite.dat");*/
 	if (!datafile)
 	{
 		set_gfx_mode(GFX_TEXT, 0, 0, 0, 0);
@@ -286,9 +279,10 @@ void renderer::display_text(int x, int y, char *txt)
 
 void renderer::display_colour_text(int x, int y, char *txt, int col)
 {
+	
 	text_mode (-1);
 	if(datafile)
-		textout (gfx_screen, datafile[ELITE_1].dat, txt, (x / (2 / GFX_SCALE)) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, col);
+		textout (gfx_screen, font/*datafile[ELITE_1].dat*/, txt, (x / (2 / GFX_SCALE)) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, col);
 	else
 		allegro_message("Datafile not set");
 }
@@ -311,7 +305,7 @@ void renderer::display_centre_text(int y, char *str, int psize, int col)
 
 	text_mode (-1);
 	if(datafile)
-		textout_centre (gfx_screen,  datafile[txt_size].dat, str, (128 * GFX_SCALE) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, txt_colour);
+		textout_centre (gfx_screen,  font/*datafile[txt_size].dat*/, str, (128 * GFX_SCALE) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, txt_colour);
 	else
 		allegro_message("Datafile not loaded");
 }
@@ -332,3 +326,111 @@ void renderer::clear_area(int tx, int ty, int bx, int by)
 				   bx + GFX_X_OFFSET, by + GFX_Y_OFFSET, GFX_COL_BLACK);
 }
 
+void renderer::pretty_text(int tx, int ty, int bx, int by, char *txt)
+{
+	char strbuf[100];
+	char *str;
+	char *bptr;
+	int len;
+	int pos;
+	int maxlen;
+	
+	maxlen = (bx - tx) / 8;
+
+	str = txt;	
+	len = strlen(txt);
+	
+	while (len > 0)
+	{
+		pos = maxlen;
+		if (pos > len)
+			pos = len;
+
+		while ((str[pos] != ' ') && (str[pos] != ',') &&
+			   (str[pos] != '.') && (str[pos] != '\0'))
+		{
+			pos--;
+		}
+
+		len = len - pos - 1;
+	
+		for (bptr = strbuf; pos >= 0; pos--)
+			*bptr++ = *str++;
+
+		*bptr = '\0';
+
+		text_mode (-1);
+		textout (gfx_screen, font/*datafile[ELITE_1].dat*/, strbuf, tx + GFX_X_OFFSET, ty + GFX_Y_OFFSET, GFX_COL_WHITE);
+		ty += (8 * GFX_SCALE);
+	}
+}
+
+void renderer::r_draw_sprite(int sprite_no, int x, int y)
+{
+	BITMAP *sprite_bmp;
+	PALETTE palette;
+	
+	switch (sprite_no)
+	{
+		case IMG_GREEN_DOT:
+			sprite_bmp = load_bitmap("greendot.bmp",palette);
+			break;
+		
+		case IMG_RED_DOT:
+			sprite_bmp = load_bitmap("reddot.bmp",palette);
+			break;
+			
+		case IMG_BIG_S:
+			sprite_bmp = load_bitmap("safe.bmp",palette);
+			break;
+		
+		case IMG_ELITE_TXT:
+			sprite_bmp = load_bitmap("elitetx3.bmp",palette);
+			break;
+			
+		case IMG_BIG_E:
+			sprite_bmp = load_bitmap("ecm.bmp",palette);
+			break;
+			
+		case IMG_BLAKE:
+			sprite_bmp = load_bitmap("blake.bmp",palette);
+			break;
+		
+		case IMG_MISSILE_GREEN:
+			sprite_bmp = load_bitmap("missgrn.bmp",palette);
+			break;
+
+		case IMG_MISSILE_YELLOW:
+			sprite_bmp = load_bitmap("missyell.bmp",palette);
+			break;
+
+		case IMG_MISSILE_RED:
+			sprite_bmp = load_bitmap("missred.bmp",palette);
+			break;
+
+		default:
+			return;
+	}
+	 set_palette(palette);
+
+	if (x == -1)
+		x = ((256 * GFX_SCALE) - sprite_bmp->w) / 2;
+	
+	draw_sprite (gfx_screen, sprite_bmp, x + GFX_X_OFFSET, y + GFX_Y_OFFSET);
+}
+
+
+void Graphics::draw_scanner()
+{
+	blit (scanner_image, gfx_screen, 0, 0, GFX_X_OFFSET, 385+GFX_Y_OFFSET, scanner_image->w, scanner_image->h);
+}
+
+void renderer::plot_fast_pixel(int x, int y, int col)
+{
+	gfx_screen->line[y][x] = col;
+}
+
+void renderer::plot_pixel (int x, int y, int col)
+{
+	putpixel (gfx_screen, x + GFX_X_OFFSET, y + GFX_Y_OFFSET, col);
+}

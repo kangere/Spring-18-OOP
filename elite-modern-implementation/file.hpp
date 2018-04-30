@@ -9,7 +9,7 @@ private:
 
 
 public:
-	void write_config_file();
+	
 };
 
 

@@ -3,6 +3,7 @@
 
 #include "allegro.h"
 #include <math.h>
+#include "options.hpp"
 
 /*constants used for graphics rendering*/
 #ifdef RES_512_512
@@ -123,12 +124,7 @@ private:
 	void draw_aa_line(int,int,int,int);
 	
 	
-	/*This two variables were formerly found in elite.c/.h files
-	defined here to allow for decoupling of graphics operations*/
 	
-	char scanner_filename[256]; // not used - constant filename that never changes
-	int speed_cap = 75;
-	int anti_alias_gfx = 0;
 public:
 	Graphics()
 	{datafile = load_datafile("elite.dat");}

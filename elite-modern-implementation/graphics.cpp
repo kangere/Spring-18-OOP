@@ -89,7 +89,7 @@ int Graphics::startup()
 	LOCK_VARIABLE(frame_count);
 	LOCK_FUNCTION(frame_timer);
 	frame_count = 0;
-	install_int (frame_timer, speed_cap);
+	install_int (frame_timer, Options::instance().get_speed());
 	
 	return 0;
 
@@ -109,7 +109,7 @@ void Graphics::draw_line(int x1, int y1, int x2, int y2)
 		return;
 	}
 
-	if (anti_alias_gfx)
+	if (Options::instance().get_anti_alias())
 		draw_aa_line (itofix(x1), itofix(y1), itofix(x2), itofix(y2));
 	else
 		line (gfx_screen, x1 + GFX_X_OFFSET, y1 + GFX_Y_OFFSET, x2 + GFX_X_OFFSET, y2 + GFX_Y_OFFSET, GFX_COL_WHITE);

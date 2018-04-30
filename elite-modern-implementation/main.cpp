@@ -2,6 +2,7 @@
 #include "vector.hpp"
 #include "sound.hpp"
 #include "graphics.hpp"
+#include "options.hpp"
 #include <allegro.h>
 
 
@@ -17,12 +18,13 @@ void init()
 
 int main()
 {
-	init();
+	/*init();
 
 	if(Graphics::instance().startup() == 1)
-		std::cout << "graphics not set up" << std::endl;
+		std::cout << "graphics not set up" << std::endl;*/
 
-	
+	Options op;
+	op.write_config_file();
 
 	
 

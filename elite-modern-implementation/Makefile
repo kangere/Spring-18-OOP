@@ -1,7 +1,7 @@
 CC = g++
-LIBS =  -lm `allegro-config --libs`
+LIBS =  -lm `allegro-config --libs` -lconfig++
 CFLAGS = -O -std=c++11 -Wall
-OBJS = main.o sound.o vector.o graphics.o file.o
+OBJS = main.o sound.o vector.o graphics.o file.o shapes.o options.o
 EXEC = newkind
 
 all: $(EXEC)
@@ -26,5 +26,9 @@ vector.o: vector.cpp vector.hpp
 graphics.o: graphics.cpp graphics.hpp
 
 file.o: file.cpp file.hpp
+
+shapes.o: shapes.cpp shapes.hpp
+
+options.o: options.hpp options.cpp
 
 

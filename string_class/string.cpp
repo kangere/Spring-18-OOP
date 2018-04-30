@@ -1,6 +1,5 @@
 #include "string.hpp"
 #include <string.h>
-
 String::String(const String& other)
 {
 	len = other.length();
@@ -59,19 +58,8 @@ bool String::operator==(const String& s)
 }
  bool String::operator<(const String& s)
  {
- 	int  leftCount = 0, rightCount = 0;
 
- 	for(int i = 0; i < len; i++)
- 		leftCount += buffer[i];
-
- 	for(int i = 0; i < s.length(); i++)
- 		rightCount += s.buffer[i];
-
- 	if(leftCount >= rightCount)
- 		return false;
-
- 	return true;
-
+ 	return (strcmp(buffer,s.buffer) < 0);
  	
  }
 

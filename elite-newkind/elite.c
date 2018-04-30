@@ -16,7 +16,7 @@
 
 #include "config.h"
 #include "elite.h"
-#include "vector.h"
+/*#include "vector.h"*/
 #include "planet.h"
 #include "shipdata.h"
 

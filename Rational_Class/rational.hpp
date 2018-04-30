@@ -43,8 +43,6 @@ public:
 };
 
 
-// std::ostream& operator<<(std::ostream &, const rational&);
-// std::istream& operator>>(std::istream &, rational &);
 
 
 

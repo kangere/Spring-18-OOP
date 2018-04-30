@@ -48,14 +48,14 @@ alg_main.o: alg_main.c alg_data.h config.h elite.h planet.h gfx.h docked.h\
 
 docked.o: docked.c config.h elite.h planet.h gfx.h
 
-elite.o: elite.c config.h elite.h planet.h vector.h shipdata.h
+elite.o: elite.c config.h elite.h planet.h  shipdata.h
 
 intro.o: intro.c space.h config.h elite.h planet.h gfx.h vector.h\
 	shipdata.h shipface.h threed.h
 
 planet.o: planet.c config.h elite.h planet.h
 
-shipdata.o: shipdata.c shipdata.h vector.h
+shipdata.o: shipdata.c shipdata.h 
 
 shipface.o: shipface.c config.h elite.h planet.h shipface.h gfx.h
 

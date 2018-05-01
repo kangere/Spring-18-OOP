@@ -1,5 +1,6 @@
 #include "graphics.hpp"
 #include "alg_data.h"
+#include "options.hpp"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -80,9 +81,10 @@ int Graphics::startup()
 	clear (gfx_screen);
 
 	blit (scanner_image, gfx_screen, 0, 0, GFX_X_OFFSET, 385+GFX_Y_OFFSET, scanner_image->w, scanner_image->h);
-	draw_line (0, 0, 0, 384);
-	draw_line (0, 0, 511, 0);
-	draw_line (511, 0, 511, 384);
+	Renderer ren;
+	ren.draw_line (0, 0, 0, 384);
+	ren.draw_line (0, 0, 511, 0);
+	ren.draw_line (511, 0, 511, 384);
 
 	/* Install a timer to regulate the speed of the game... */
 
@@ -95,7 +97,7 @@ int Graphics::startup()
 
 }
 
-void Graphics::draw_line(int x1, int y1, int x2, int y2)
+void Renderer::draw_line(int x1, int y1, int x2, int y2)
 {
 	if (y1 == y2)
 	{
@@ -115,7 +117,7 @@ void Graphics::draw_line(int x1, int y1, int x2, int y2)
 		line (gfx_screen, x1 + GFX_X_OFFSET, y1 + GFX_Y_OFFSET, x2 + GFX_X_OFFSET, y2 + GFX_Y_OFFSET, GFX_COL_WHITE);
 }
 
-void Graphics::draw_aa_line(int x1, int y1, int x2, int y2)
+void Renderer::draw_aa_line(int x1, int y1, int x2, int y2)
 {
 	fixed grad, xd, yd;
 	fixed xgap, ygap, xend, yend, xf, yf;
@@ -272,22 +274,22 @@ void Graphics::update_screen()
 	release_screen();
 }
 
-void renderer::display_text(int x, int y, char *txt)
+void Renderer::display_text(int x, int y, char *txt)
 {
 	display_colour_text(x,y,txt,GFX_COL_WHITE);
 }
 
-void renderer::display_colour_text(int x, int y, char *txt, int col)
+void Renderer::display_colour_text(int x, int y, std::string txt, int col)
 {
 	
 	text_mode (-1);
 	if(datafile)
-		textout (gfx_screen, font/*datafile[ELITE_1].dat*/, txt, (x / (2 / GFX_SCALE)) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, col);
+		textout (gfx_screen, font/*datafile[ELITE_1].dat*/, txt.c_str(), (x / (2 / GFX_SCALE)) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, col);
 	else
 		allegro_message("Datafile not set");
 }
 
-void renderer::display_centre_text(int y, char *str, int psize, int col)
+void Renderer::display_centre_text(int y, std::string str, int psize, int col)
 {
 	int txt_size;
 	int txt_colour;
@@ -305,28 +307,28 @@ void renderer::display_centre_text(int y, char *str, int psize, int col)
 
 	text_mode (-1);
 	if(datafile)
-		textout_centre (gfx_screen,  font/*datafile[txt_size].dat*/, str, (128 * GFX_SCALE) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, txt_colour);
+		textout_centre (gfx_screen,  font/*datafile[txt_size].dat*/, str.c_str(), (128 * GFX_SCALE) + GFX_X_OFFSET, (y / (2 / GFX_SCALE)) + GFX_Y_OFFSET, txt_colour);
 	else
 		allegro_message("Datafile not loaded");
 }
 
-void renderer::clear_display()
+void Renderer::clear_display()
 {
 	rectfill (gfx_screen, GFX_X_OFFSET + 1, GFX_Y_OFFSET + 1, 510 + GFX_X_OFFSET, 383 + GFX_Y_OFFSET, GFX_COL_BLACK);
 }
 
-void renderer::clear_text_area()
+void Renderer::clear_text_area()
 {
 	rectfill (gfx_screen, GFX_X_OFFSET + 1, GFX_Y_OFFSET + 340, 510 + GFX_X_OFFSET, 383 + GFX_Y_OFFSET, GFX_COL_BLACK);
 }
 
-void renderer::clear_area(int tx, int ty, int bx, int by)
+void Renderer::clear_area(int tx, int ty, int bx, int by)
 {
 	rectfill (gfx_screen, tx + GFX_X_OFFSET, ty + GFX_Y_OFFSET,
 				   bx + GFX_X_OFFSET, by + GFX_Y_OFFSET, GFX_COL_BLACK);
 }
 
-void renderer::pretty_text(int tx, int ty, int bx, int by, char *txt)
+void Renderer::pretty_text(int tx, int ty, int bx, int by, char *txt)
 {
 	char strbuf[100];
 	char *str;
@@ -365,7 +367,7 @@ void renderer::pretty_text(int tx, int ty, int bx, int by, char *txt)
 	}
 }
 
-void renderer::r_draw_sprite(int sprite_no, int x, int y)
+void Renderer::r_draw_sprite(int sprite_no, int x, int y)
 {
 	BITMAP *sprite_bmp;
 	PALETTE palette;
@@ -425,12 +427,12 @@ void Graphics::draw_scanner()
 	blit (scanner_image, gfx_screen, 0, 0, GFX_X_OFFSET, 385+GFX_Y_OFFSET, scanner_image->w, scanner_image->h);
 }
 
-void renderer::plot_fast_pixel(int x, int y, int col)
+void Renderer::plot_fast_pixel(int x, int y, int col)
 {
 	gfx_screen->line[y][x] = col;
 }
 
-void renderer::plot_pixel (int x, int y, int col)
+void Renderer::plot_pixel (int x, int y, int col)
 {
 	putpixel (gfx_screen, x + GFX_X_OFFSET, y + GFX_Y_OFFSET, col);
 }

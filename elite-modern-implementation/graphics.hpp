@@ -3,7 +3,7 @@
 
 #include "allegro.h"
 #include <math.h>
-#include "options.hpp"
+#include <string>
 
 /*constants used for graphics rendering*/
 #ifdef RES_512_512
@@ -113,6 +113,30 @@ const int IMG_BLAKE	 = 10;
 #define invfrac(x) (65535-frac(x))
 #define plot(x,y,c) putpixel(gfx_screen, (x), (y), (c)+AA_BASE)
 
+enum Screen{
+	intro_one,
+	intro_two,
+	galactic_chart,
+	short_range,
+	planet_data,
+	market_prices,
+	cmdr_status,
+	front_view,
+	rear_view,
+	left_view,
+	right_view,
+	break_pattern,
+	inventory,
+	equip_ship,
+	options,
+	load_cmdr,
+	save_cmdr,
+	quit,
+	game_over,
+	settings,
+	escape_pod
+};
+
 /*This class will handle rendering of objects and decouple graphics
 rendering from the entities*/
 class Graphics{
@@ -120,8 +144,9 @@ private:
 	BITMAP *gfx_screen;
 	DATAFILE *datafile;
 	BITMAP *scanner_image;
+	Screen current_screen;
 	 
-	void draw_aa_line(int,int,int,int);
+	
 	
 	
 	
@@ -129,7 +154,7 @@ public:
 	Graphics()
 	{datafile = load_datafile("elite.dat");}
 	int startup();
-	void draw_line(int,int,int,int);
+	
 	void shutdown();
 	void draw_scanner();
 	/*use singleton pattern*/
@@ -142,11 +167,15 @@ public:
 	DATAFILE* get_datafile() const
 	{ return datafile;}
 
+	Screen get_current_screen() const
+	{ return current_screen;}
 
+	void set_screen(Screen sc)
+	{current_screen = sc;}
 	
 };
 
-class renderer{
+class Renderer{
 private:
 	BITMAP* gfx_screen = Graphics::instance().get_screen();
 	DATAFILE* datafile = Graphics::instance().get_datafile();
@@ -154,9 +183,13 @@ private:
 	
 
 public:
+	Renderer(){}
+	~Renderer(){}
+	void draw_line(int,int,int,int);
+	void draw_aa_line(int,int,int,int);
 	void display_text(int x, int y, char *txt);
-	void display_colour_text(int x, int y, char *txt, int col);
-	void display_centre_text(int y, char *str, int psize, int col);
+	void display_colour_text(int x, int y, std::string txt, int col);
+	void display_centre_text(int y, std::string str, int psize, int col);
 	void clear_display();
 	void clear_text_area();
 	void clear_area(int tx, int ty, int bx, int by);

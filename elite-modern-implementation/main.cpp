@@ -18,18 +18,18 @@ void init()
 
 int main()
 {
-	/*init();
+	init();
 
 	if(Graphics::instance().startup() == 1)
-		std::cout << "graphics not set up" << std::endl;*/
+		std::cout << "graphics not set up" << std::endl;
 
-	Options op;
-	op.write_config_file();
+	Options::instance().display_options();
 
 	
 
 	std::cout << "Hello" << std::endl;
 
+	Graphics::instance().shutdown();
 	return 0;
 }
 

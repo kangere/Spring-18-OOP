@@ -177,13 +177,17 @@ public:
 
 class Renderer{
 private:
-	BITMAP* gfx_screen = Graphics::instance().get_screen();
-	DATAFILE* datafile = Graphics::instance().get_datafile();
+	BITMAP* gfx_screen;
+	DATAFILE* datafile;
 	FONT* font;
 	
 
 public:
-	Renderer(){}
+	Renderer()
+	{
+		gfx_screen = Graphics::instance().get_screen();
+		datafile = Graphics::instance().get_datafile();
+	}
 	~Renderer(){}
 	void draw_line(int,int,int,int);
 	void draw_aa_line(int,int,int,int);

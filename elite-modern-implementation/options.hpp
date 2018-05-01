@@ -29,6 +29,8 @@ public:
 
 	void display_options();
 	void highlight_setting(int);
+	void select_prev_option();
+	void select_next_option();
 	
 };
 

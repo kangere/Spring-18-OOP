@@ -23,7 +23,6 @@ public:
 
 	void draw();
 
-
 };
 
 class Rectangle : public Shape{

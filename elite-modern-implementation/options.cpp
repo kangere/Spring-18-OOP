@@ -169,6 +169,7 @@ void Options::display_setting_item(int item)
 }
 void Options::highlight_setting(int item)
 {
+	BITMAP *gfx_screen = Graphics::instance().get_screen();
 	Renderer ren;
 	int x,y;
 	int width;
@@ -205,7 +206,7 @@ void Options::highlight_setting(int item)
 		width = 100;
 	}
 	
-	Rectangle rect(x, y, x + width, y + OPTION_BAR_HEIGHT, GFX_COL_DARK_RED);
+	Rectangle rect(x, y, x + width, y + OPTION_BAR_HEIGHT, GFX_COL_DARK_RED,gfx_screen);
 	rect.draw();
 	display_setting_item (item);		
 	hilite_item = item;
@@ -213,6 +214,7 @@ void Options::highlight_setting(int item)
 
 void Options::highlight_option(int i)
 {
+	BITMAP *gfx_screen = Graphics::instance().get_screen();
 	Renderer ren;
 	int y;
 	int x;
@@ -231,10 +233,22 @@ void Options::highlight_option(int i)
 	y += i * 30;
 	
 	Rectangle rect(x, y, x + OPTION_BAR_WIDTH, y + OPTION_BAR_HEIGHT,
-						GFX_COL_DARK_RED);
+						GFX_COL_DARK_RED,gfx_screen);
 	rect.draw();
 	display_option_item (i);		
 
 	hilite_item = i;
 
+}
+
+void Options::select_prev_option()
+{
+	if (hilite_item > 0)
+		highlight_option (hilite_item - 1);
+}
+
+void Options::select_next_option()
+{
+	if (hilite_item < (NUM_OPTIONS - 1))
+		highlight_option (hilite_item + 1);
 }

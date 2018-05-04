@@ -112,11 +112,11 @@ void play_midi_d(int midi_no, int repeat)
 	switch(midi_no)
 	{
 		case SND_ELITE_THEME:
-			play_midi (load_midi("theme.mid")/*datafile[THEME].dat*/, repeat);
+			play_midi (load_midi("theme.mid"), repeat);
 			break;
 		
 		case SND_BLUE_DANUBE:
-			play_midi (load_midi("danube.mid")/*datafile[DANUBE].dat*/, repeat);
+			play_midi (load_midi("danube.mid"), repeat);
 			break;
 	}
 }

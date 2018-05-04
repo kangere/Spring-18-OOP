@@ -23,7 +23,7 @@ int main()
 	if(Graphics::instance().startup() == 1)
 		std::cout << "graphics not set up" << std::endl;
 
-	Options::instance().display_options();
+	
 
 	
 
